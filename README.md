@@ -16,7 +16,21 @@ A modern, full-stack platform for finding, reviewing, and moderating Paying Gues
   - Reviews with images go through an inline AI validation process.
   - **OCR (Optical Character Recognition)** parses images for receipts, bills, and address boards.
   - **BLIP (Bootstrapping Language-Image Pre-training)** generates captions to ensure the uploaded photos are relevant (e.g., actually showing a room, bed, or building).
-  - A comprehensive Trust Score (0-100) is generated, enabling auto-approval for high-quality reviews.
+  - A **Trust Score (0-100)** is generated inline during submission:
+
+  | Signal | Max Points | How It's Scored |
+  |---|---|---|
+  | Has proof image(s) | 25 | Flat +25 if any image uploaded |
+  | OCR text quality | 15 | Receipt/bill keywords = 100%, address keywords = 80%, any text = 30-60% |
+  | AI caption relevance | 15 | BLIP caption matched against PG keywords (room, bed, food, building…) |
+  | Review text length | 15 | >100 chars = full, >50 = 10pts, >20 = 5pts |
+  | Rating completeness | 10 | All 5 categories filled = 10pts |
+  | Multiple proof images | 10 | 2+ images = 7pts, 3+ images = 10pts |
+  | Logged-in user | 10 | Not anonymous |
+
+  - Reviews scoring **≥ 70** are **auto-approved** ✅ and shown publicly.
+  - Reviews scoring **40–69** go to the **moderation queue** for human review.
+  - Reviews scoring **< 40** are marked **low trust** 🔴.
 - **Role-Based Access Control**: Secure Auth with distinct User, Moderator, and Admin roles.
 - **Admin Dashboard & Analytics**: A complete dashboard for viewing stats on listings, users, and a moderation queue to manually approve low-trust reviews.
 - **Modern UI**: Fully responsive light-theme styled with TailwindCSS, featuring a smooth, instant feedback user experience.
