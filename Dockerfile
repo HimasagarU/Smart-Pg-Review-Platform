@@ -1,5 +1,8 @@
-# Use Node.js 18 Alpine as base image for a small footprint
-FROM node:18-alpine AS builder
+# Use Node.js 18 slim (Debian-based) to naturally prevent Prisma OpenSSL/musl issues
+FROM node:18-slim AS builder
+
+# Install OpenSSL (required by Prisma)
+RUN apt-get update -y && apt-get install -y openssl
 
 # Set working directory
 WORKDIR /app
@@ -9,8 +12,10 @@ COPY package*.json ./
 COPY apps/backend/package*.json ./apps/backend/
 COPY infra/package*.json ./infra/
 
-# Install dependencies needed for build
-RUN npm install && cd apps/backend && npm install && cd ../../infra && npm install
+# Install all dependencies precisely where they belong
+RUN npm install
+RUN cd apps/backend && npm install
+RUN cd infra && npm install
 
 # Copy application code
 COPY . .
@@ -22,7 +27,10 @@ RUN cd infra && npx prisma generate
 RUN cd apps/backend && npm run build
 
 # --- Production Image ---
-FROM node:18-alpine AS production
+FROM node:18-slim AS production
+
+# Install OpenSSL for runtime
+RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
