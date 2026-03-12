@@ -6,7 +6,8 @@
     "dev": "npx tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "postinstall": "npx prisma generate --schema ../../infra/prisma/schema.prisma"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.500.0",
