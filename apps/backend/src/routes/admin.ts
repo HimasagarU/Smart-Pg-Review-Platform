@@ -78,11 +78,6 @@ router.get("/stats", async (_req, res) => {
       },
     });
 
-    // College count
-    const totalColleges = await prisma.college.count();
-
-    // Events count
-    const totalEvents = await prisma.event.count();
 
     res.json({
       users: {
@@ -111,8 +106,6 @@ router.get("/stats", async (_req, res) => {
         recentActions: recentModerationActions,
       },
       recentReviews,
-      colleges: totalColleges,
-      events: totalEvents,
     });
   } catch (err) {
     console.error("Get stats error:", err);
