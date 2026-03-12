@@ -1,11 +1,9 @@
 services:
   - type: web
     name: pgreview-backend
-    env: node
+    env: docker
     region: ohio
     plan: free
-    buildCommand: npm install && cd infra && npx prisma generate && cd ../apps/backend && npm run build
-    startCommand: cd apps/backend && npm start
     envVars:
       - key: DATABASE_URL
         sync: false
