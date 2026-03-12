@@ -79,6 +79,14 @@ npm run frontend:dev
 ```
 The Frontend will run on `localhost:3000` and the Backend API on `localhost:4000`.
 
+### 🐳 Run with Docker (Alternative)
+If you prefer running the backend in a container (especially useful for VPS deployments like AWS/DigitalOcean):
+```bash
+# Build and run the backend via Docker Compose
+docker-compose up -d --build
+```
+This will start the backend on port 4000 using the `Dockerfile`.
+
 ## 📦 Deployment Guide
 
 ### Backend (Render Free Tier)
