@@ -65,7 +65,7 @@ router.get("/:id", async (req, res) => {
           where: { status: "APPROVED" },
           include: {
             proofs: {
-              select: { id: true, fileType: true, caption: true },
+              select: { id: true, fileType: true, caption: true, fileUrl: true },
             },
             verification: {
               select: { finalStatus: true },
@@ -85,8 +85,21 @@ router.get("/:id", async (req, res) => {
         ? listing.reviews.reduce((sum, r) => sum + r.overallScore, 0) / listing.reviews.length
         : null;
 
+    const r2Base = `${process.env.R2_ENDPOINT}/${process.env.R2_BUCKET}`;
+
+    const reviewsWithImages = listing.reviews.map((review: any) => ({
+      ...review,
+      proofs: review.proofs.map((proof: any) => ({
+        ...proof,
+        imageUrl: proof.fileUrl?.startsWith("r2://")
+          ? `${r2Base}/${proof.fileUrl.replace("r2://", "")}`
+          : proof.fileUrl,
+      })),
+    }));
+
     res.json({
       ...listing,
+      reviews: reviewsWithImages,
       reviewCount: listing.reviews.length,
       avgRating: avgRating ? parseFloat(avgRating.toFixed(1)) : null,
     });

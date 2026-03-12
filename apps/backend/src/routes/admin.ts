@@ -129,7 +129,18 @@ router.get("/moderation/pending", async (_req, res) => {
       take: 50,
     });
 
-    res.json(pending);
+    const r2Base = `${process.env.R2_ENDPOINT}/${process.env.R2_BUCKET}`;
+    const result = pending.map((review: any) => ({
+      ...review,
+      proofs: review.proofs.map((proof: any) => ({
+        ...proof,
+        imageUrl: proof.fileUrl?.startsWith("r2://")
+          ? `${r2Base}/${proof.fileUrl.replace("r2://", "")}`
+          : proof.fileUrl,
+      })),
+    }));
+
+    res.json(result);
   } catch (err) {
     console.error("Get pending reviews error:", err);
     res.status(500).json({ error: "Failed to fetch pending reviews" });
@@ -151,7 +162,18 @@ router.get("/moderation/all", async (_req, res) => {
       take: 100,
     });
 
-    res.json(reviews);
+    const r2Base = `${process.env.R2_ENDPOINT}/${process.env.R2_BUCKET}`;
+    const result = reviews.map((review: any) => ({
+      ...review,
+      proofs: review.proofs.map((proof: any) => ({
+        ...proof,
+        imageUrl: proof.fileUrl?.startsWith("r2://")
+          ? `${r2Base}/${proof.fileUrl.replace("r2://", "")}`
+          : proof.fileUrl,
+      })),
+    }));
+
+    res.json(result);
   } catch (err) {
     console.error("Get all reviews error:", err);
     res.status(500).json({ error: "Failed to fetch reviews" });
