@@ -10,7 +10,7 @@ COPY apps/backend/package*.json ./apps/backend/
 COPY infra/package*.json ./infra/
 
 # Install dependencies needed for build
-RUN npm install
+RUN npm install && cd apps/backend && npm install && cd ../../infra && npm install
 
 # Copy application code
 COPY . .
