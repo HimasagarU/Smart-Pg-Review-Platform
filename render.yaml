@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: pgreview-backend
+    env: node
+    region: ohio
+    plan: free
+    buildCommand: npm install && cd infra && npx prisma generate && cd ../apps/backend && npm run build
+    startCommand: cd apps/backend && npm start
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: R2_ACCOUNT_ID
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: R2_BUCKET
+        sync: false
+      - key: R2_ENDPOINT
+        sync: false
+      - key: HF_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false

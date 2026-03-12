@@ -1,0 +1,120 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(uuid())
+  email          String?   @unique
+  passwordHash   String?
+  emailVerified  Boolean   @default(false)
+  role           Role      @default(USER)
+  publicHandle   String    @unique
+  createdAt      DateTime  @default(now())
+  reviews        Review[]
+}
+
+enum Role {
+  ADMIN
+  MODERATOR
+  OWNER
+  USER
+}
+
+model College {
+  id        String   @id @default(uuid())
+  name      String
+  domain    String?
+  city      String?
+  createdAt DateTime @default(now())
+}
+
+model PGListing {
+  id           String   @id @default(uuid())
+  ownerId      String?
+  name         String
+  address      String
+  city         String
+  lat          Float?
+  lng          Float?
+  budgetMin    Int?
+  budgetMax    Int?
+  gender       String?
+  description  String?
+  mainImageUrl String?
+  createdAt    DateTime @default(now())
+  reviews      Review[]
+}
+
+model Review {
+  id                String       @id @default(uuid())
+  listingId         String
+  listing           PGListing    @relation(fields: [listingId], references: [id])
+  userId            String?
+  user              User?        @relation(fields: [userId], references: [id])
+  publicHandle      String
+  ratingsJson       Json
+  overallScore      Float
+  text              String?
+  status            ReviewStatus @default(PENDING)
+  verificationScore Int?
+  createdAt         DateTime     @default(now())
+  proofs            ReviewProof[]
+  verification      Verification?
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  FLAGGED
+}
+
+model ReviewProof {
+  id          String   @id @default(uuid())
+  reviewId    String
+  review      Review   @relation(fields: [reviewId], references: [id])
+  fileUrl     String
+  fileType    String
+  size        Int
+  exifJson    Json?
+  ocrText     String?
+  phash       String?
+  caption     String?
+  tamperFlags Json?
+  createdAt   DateTime @default(now())
+}
+
+model Verification {
+  id          String   @id @default(uuid())
+  reviewId    String   @unique
+  review      Review   @relation(fields: [reviewId], references: [id])
+  signals     Json
+  finalStatus String
+  moderatorId String?
+  createdAt   DateTime @default(now())
+}
+
+model ModerationLog {
+  id         String   @id @default(uuid())
+  actorId    String
+  action     String
+  targetType String
+  targetId   String
+  reason     String?
+  createdAt  DateTime @default(now())
+}
+
+model Event {
+  id        String   @id @default(uuid())
+  userId    String?
+  sessionId String
+  eventType String
+  payload   Json?
+  ts        DateTime @default(now())
+}

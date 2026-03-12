@@ -1,0 +1,21 @@
+{
+  "name": "pg-review",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Smart Verified PG Reviews Platform",
+  "scripts": {
+    "backend:dev": "cd apps/backend && npm run dev",
+    "frontend:dev": "cd apps/frontend && npm run dev",
+    "worker:dev": "cd apps/worker && npm run dev",
+    "prisma:generate": "cd infra && npx prisma generate",
+    "prisma:migrate": "cd infra && npx prisma migrate dev",
+    "install:all": "npm install && cd apps/backend && npm install && cd ../worker && npm install"
+  },
+  "devDependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.3.1",
+    "prisma": "^5.22.0",
+    "tsx": "^4.21.0"
+  }
+}
