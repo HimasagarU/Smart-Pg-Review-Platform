@@ -20,8 +20,11 @@ RUN cd infra && npm install
 # Copy application code
 COPY . .
 
-# Generate Prisma Client
+# Generate Prisma Client in BOTH places:
+# 1. Root node_modules (for infra scripts)
 RUN cd infra && npx prisma generate
+# 2. apps/backend/node_modules (for runtime — this is where @prisma/client resolves)
+RUN cd apps/backend && npx prisma generate --schema=../../infra/prisma/schema.prisma
 
 # Build the TypeScript backend code
 RUN cd apps/backend && npm run build
