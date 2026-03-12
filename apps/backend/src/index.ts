@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 4000;
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  origin: true, // Allow all origins for the public API / Vercel deployment
   credentials: true,
 }));
 app.use(express.json());
