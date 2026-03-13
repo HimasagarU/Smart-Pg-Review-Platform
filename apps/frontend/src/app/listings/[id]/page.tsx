@@ -123,7 +123,7 @@ export default function ListingDetailPage() {
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                   {(review.verification?.finalStatus === "APPROVED" || (review.verificationScore && review.verificationScore >= 70)) && (
-                    <span className="badge badge-verified">✓ Verified</span>
+                    <span className="badge badge-verified" style={{ background: "var(--success-light)", color: "var(--success)" }}>✓ Trust Score: {review.verificationScore}%</span>
                   )}
                   <span style={{ background: "#fef3c7", color: "#d97706", padding: "4px 10px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: 700 }}>⭐ {review.overallScore}</span>
                 </div>
@@ -174,7 +174,7 @@ export default function ListingDetailPage() {
 
 function getDemoListing(id: string): Listing {
   return {
-    id, name: "Sunshine PG for Men", address: "12, MG Road, Near Metro Station", city: "Bangalore", gender: "Male", budgetMin: 6000, budgetMax: 12000,
+    id, name: "Sunshine PG for Men", address: "12, MG Road, Near Metro Station", city: "Bangalore", gender: "Co-living", budgetMin: 6000, budgetMax: 12000,
     description: "Spacious rooms with attached bathrooms, 24/7 water supply, high-speed WiFi, and homemade food.",
     mainImageUrl: null, reviewCount: 3, avgRating: 4.2,
     reviews: [
