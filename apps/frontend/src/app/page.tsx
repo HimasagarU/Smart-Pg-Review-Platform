@@ -63,31 +63,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
-      {/* Stats */}
-      <section style={{
-        padding: "48px 20px",
-        background: "var(--bg-secondary)",
-        borderTop: "1px solid var(--border-subtle)",
-        borderBottom: "1px solid var(--border-subtle)",
-      }}>
-        <div style={{
-          maxWidth: "800px", margin: "0 auto",
-          display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px",
-          textAlign: "center",
-        }}>
-          {[
-            { value: "500+", label: "PG Listings" },
-            { value: "2,400+", label: "Verified Reviews" },
-            { value: "15+", label: "Cities" },
-          ].map((s) => (
-            <div key={s.label}>
-              <div style={{ fontSize: "2rem", fontWeight: 800 }} className="gradient-text">{s.value}</div>
-              <div style={{ color: "var(--text-muted)", fontSize: "0.85rem", fontWeight: 500 }}>{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }
