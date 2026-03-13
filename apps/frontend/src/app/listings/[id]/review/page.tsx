@@ -98,22 +98,14 @@ export default function ReviewFormPage() {
   }
 
   if (success) {
-    const trustScore = (typeof window !== "undefined" && (window as any).__trustScore) || null;
     return (
       <div className="page-enter" style={{ maxWidth: "600px", margin: "0 auto", padding: "100px 20px", textAlign: "center" }}>
         <div style={{ fontSize: "4rem", marginBottom: "20px" }}>🎉</div>
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "12px" }}>Review Submitted!</h1>
-        {trustScore !== null && (
-          <div style={{
-            display: "inline-block", padding: "12px 24px", borderRadius: "var(--radius-md)", marginBottom: "16px",
-            background: trustScore >= 70 ? "var(--success-light)" : trustScore >= 40 ? "var(--warning-light)" : "var(--danger-light)",
-            color: trustScore >= 70 ? "var(--success)" : trustScore >= 40 ? "var(--warning)" : "var(--danger)",
-          }}>
-            <div style={{ fontSize: "1.8rem", fontWeight: 800 }}>{trustScore}%</div>
-            <div style={{ fontSize: "0.85rem", fontWeight: 600 }}>Trust Score</div>
-          </div>
-        )}
-        <p style={{ color: "var(--text-secondary)" }}>Your review is pending moderation. Redirecting...</p>
+        <p style={{ color: "var(--text-secondary)", marginBottom: "16px", lineHeight: "1.6" }}>
+          Thank you for your feedback! Your review has been submitted and is currently being processed by our AI verification system. Please wait a few minutes for your review and trust score to be securely updated.
+        </p>
+        <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>Redirecting back to listing...</p>
       </div>
     );
   }

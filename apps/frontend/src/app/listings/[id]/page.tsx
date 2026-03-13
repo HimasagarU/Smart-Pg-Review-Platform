@@ -15,7 +15,7 @@ interface Review {
   verificationScore: number | null;
   createdAt: string;
   verification: { finalStatus: string } | null;
-  proofs: { id: string; fileType: string; caption: string | null }[];
+  proofs: { id: string; fileType: string; caption: string | null; imageUrl?: string }[];
 }
 
 interface Listing {
@@ -147,7 +147,23 @@ export default function ListingDetailPage() {
                 })}
               </div>
 
-              {review.text && <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", lineHeight: 1.7 }}>{review.text}</p>}
+              {review.text && <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", lineHeight: 1.7, marginBottom: "16px" }}>{review.text}</p>}
+
+              {review.proofs && review.proofs.length > 0 && (
+                <div style={{ display: "flex", gap: "12px", overflowX: "auto", paddingBottom: "8px" }}>
+                  {review.proofs.map((proof) => (
+                    proof.imageUrl && (
+                      <div key={proof.id} style={{ position: "relative", width: "120px", height: "120px", flexShrink: 0 }}>
+                        <img 
+                          src={proof.imageUrl} 
+                          alt={proof.caption || "Review proof"} 
+                          style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "var(--radius-md)" }}
+                        />
+                      </div>
+                    )
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
